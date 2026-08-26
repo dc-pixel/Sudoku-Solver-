@@ -1,0 +1,19 @@
+name: C++ tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install compiler
+        run: sudo apt-get update && sudo apt-get install -y g++
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -pedantic tests/test_sudoku_suite.cpp -o sudoku-tests
+      - name: Run tests
+        run: ./sudoku-tests
