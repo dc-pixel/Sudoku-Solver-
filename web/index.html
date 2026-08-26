@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudoku Solver</title>
+  <meta name="description" content="A fast, accessible Sudoku solver and puzzle generator." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <span class="eyebrow">SUDOKU SUITE</span>
+        <h1>Sudoku Solver</h1>
+        <p>Solve, reset, or generate a fresh 9×9 puzzle in your browser.</p>
+      </div>
+      <div class="badge">C++ logic-inspired</div>
+    </header>
+
+    <section class="card">
+      <div id="status" class="status" role="status" aria-live="polite">Enter numbers or load an example.</div>
+      <div id="board" class="board" aria-label="Sudoku board"></div>
+      <div class="toolbar">
+        <button id="solve" class="primary">Solve puzzle</button>
+        <button id="generate">Generate</button>
+        <button id="example">Example</button>
+        <button id="clear">Clear</button>
+      </div>
+      <div class="legend">
+        <span><i class="dot given"></i> Given</span>
+        <span><i class="dot solved"></i> Solved</span>
+        <span><i class="dot input"></i> Editable</span>
+      </div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
