@@ -2,6 +2,7 @@
 #ifndef SRC_GRID_H_
 #define SRC_GRID_H_
 
+#include<algorithm>
 #include<array>
 #include<fstream>
 #include<iostream>
@@ -98,13 +99,11 @@ class Grid {
 
     void clear_values_starting_from_coord(Coord coord) {
         for (int row = coord.first; row < GRID_LEN; row++) {
-            for (int col = coord.second; col < GRID_LEN; col++) {
-                auto pos_in_pre_filled = std::find(
-                    coords_that_were_pre_filled.begin(),
-                    coords_that_were_pre_filled.end(),
-                    coord);
-                if (pos_in_pre_filled == coords_that_were_pre_filled.end()) {
-                    grid.at(coord.first).at(coord.second) = 0;
+            int first_col = (row == coord.first) ? coord.second : 0;
+            for (int col = first_col; col < GRID_LEN; col++) {
+                Coord current_coord = std::make_pair(row, col);
+                if (!coord_was_pre_filled(current_coord)) {
+                    grid.at(row).at(col) = 0;
                 }
             }
         }
