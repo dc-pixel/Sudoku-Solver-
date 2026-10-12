@@ -16,6 +16,7 @@ int main() {
         test_value_exists_in_row,
         test_value_exists_in_3x3_grid,
         test_possible_cell_values_generated_correctly,
+        test_clear_values_starting_from_coord_clears_only_non_prefilled_cells,
         test_successive_cell_coords_are_generated_correctly,
         test_puzzle_is_solved_correctly,
         test_validator_validates_grids_as_expected,

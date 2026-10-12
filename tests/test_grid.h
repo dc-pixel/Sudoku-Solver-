@@ -2,6 +2,8 @@
 #ifndef TESTS_TEST_GRID_H_
 #define TESTS_TEST_GRID_H_
 
+#include<cassert>
+
 #include<utility>
 #include<vector>
 
@@ -225,6 +227,41 @@ void test_possible_cell_values_generated_correctly() {
         std::make_pair(8, 8));
     expected_value = std::vector<int>{ 1, 4, 7 };
     assert(obtained_value == expected_value);
+}
+
+
+void test_clear_values_starting_from_coord_clears_only_non_prefilled_cells() {
+    sudoku::Grid grid({{
+        {{ 1, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 2, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }},
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 9 }}
+    }});
+
+    // Place solver values before and after the backtracking coordinate.
+    grid.update(std::make_pair(0, 1), 4);
+    grid.update(std::make_pair(0, 2), 5);
+    grid.update(std::make_pair(0, 8), 6);
+    grid.update(std::make_pair(1, 0), 7);
+    grid.update(std::make_pair(1, 2), 3);
+    grid.update(std::make_pair(8, 7), 8);
+
+    grid.clear_values_starting_from_coord(std::make_pair(0, 2));
+
+    // Earlier values remain, later solver values are cleared, and clues survive.
+    assert(grid.get(std::make_pair(0, 1)) == 4);
+    assert(grid.get(std::make_pair(0, 2)) == 0);
+    assert(grid.get(std::make_pair(0, 8)) == 0);
+    assert(grid.get(std::make_pair(1, 0)) == 0);
+    assert(grid.get(std::make_pair(1, 1)) == 2);
+    assert(grid.get(std::make_pair(1, 2)) == 0);
+    assert(grid.get(std::make_pair(8, 7)) == 0);
+    assert(grid.get(std::make_pair(8, 8)) == 9);
 }
 
 #endif  // TESTS_TEST_GRID_H_
