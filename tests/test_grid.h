@@ -262,6 +262,28 @@ void test_clear_values_starting_from_coord_clears_only_non_prefilled_cells() {
     assert(grid.get(std::make_pair(1, 2)) == 0);
     assert(grid.get(std::make_pair(8, 7)) == 0);
     assert(grid.get(std::make_pair(8, 8)) == 9);
+
+    // Invalid coordinates must be rejected before any cells are modified.
+    grid.update(std::make_pair(1, 0), 7);
+    auto expect_invalid_coordinate = [&grid](std::pair<int, int> coord) {
+        bool threw = false;
+        try {
+            grid.clear_values_starting_from_coord(coord);
+        } catch (const std::out_of_range&) {
+            threw = true;
+        }
+
+        assert(threw);
+        assert(grid.get(std::make_pair(0, 0)) == 1);
+        assert(grid.get(std::make_pair(1, 0)) == 7);
+        assert(grid.get(std::make_pair(1, 1)) == 2);
+        assert(grid.get(std::make_pair(8, 8)) == 9);
+    };
+
+    // An invalid column used to clear cells in every subsequent row.
+    expect_invalid_coordinate(std::make_pair(0, 9));
+    // An invalid row used to be silently ignored.
+    expect_invalid_coordinate(std::make_pair(9, 0));
 }
 
 #endif  // TESTS_TEST_GRID_H_

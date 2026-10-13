@@ -98,6 +98,12 @@ class Grid {
     }
 
     void clear_values_starting_from_coord(Coord coord) {
+        if (coord.first < 0 || coord.first >= GRID_LEN ||
+            coord.second < 0 || coord.second >= GRID_LEN) {
+            throw std::out_of_range(
+                "Coordinate must be within the 9x9 grid");
+        }
+
         for (int row = coord.first; row < GRID_LEN; row++) {
             int first_col = (row == coord.first) ? coord.second : 0;
             for (int col = first_col; col < GRID_LEN; col++) {
